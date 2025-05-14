@@ -34,11 +34,13 @@ public class Kasir extends javax.swing.JFrame {
         txttelp_kasir.setText("");
         txtalamat_kasir.setText("");
         txtcaridata_kasir.setText("");
+        txtagama.setText("");
+        txtPw.setText("");
         genderGroup.clearSelection();
     }
     
     protected void datatable(){
-        Object[] Baris ={"ID Kasir","Nama kasir","Jenis Kelamin","No.Telepon","Alamat"};
+        Object[] Baris ={"ID Kasir","Nama kasir","Jenis Kelamin","No.Telepon","Agama","Alamat","Password"};
         tabmode = new DefaultTableModel(null, Baris);
         String cariitem = txtcaridata_kasir.getText();
             try {
@@ -52,6 +54,8 @@ public class Kasir extends javax.swing.JFrame {
                     hasil.getString(3),
                     hasil.getString(4),
                     hasil.getString(5),
+                    hasil.getString(6),
+                    hasil.getString(7),
                     });
                 }
                 tblkasir.setModel(tabmode);
@@ -92,6 +96,10 @@ public class Kasir extends javax.swing.JFrame {
         bhapus_kasir = new javax.swing.JButton();
         bbatal_kasir = new javax.swing.JButton();
         bkeluar_kasir = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        txtagama = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txtPw = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -189,35 +197,42 @@ public class Kasir extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setText("Agama");
+
+        jLabel8.setText("Password");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(380, 380, 380)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtPw, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(rlaki, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(rperempuan, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtid_kasir, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtnm_kasir, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txttelp_kasir, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtagama, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(rlaki, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(rperempuan, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(txtid_kasir, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtnm_kasir, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txttelp_kasir, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtcaridata_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(bcari_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(bsimpan_kasir)
                                 .addGap(18, 18, 18)
@@ -227,23 +242,31 @@ public class Kasir extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(bbatal_kasir)
                                 .addGap(18, 18, 18)
-                                .addComponent(bkeluar_kasir))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(txtcaridata_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(bcari_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane2)))))
+                                .addComponent(bkeluar_kasir))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(410, 410, 410)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addGap(51, 51, 51)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtcaridata_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bcari_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
                         .addComponent(jLabel2)
                         .addGap(5, 5, 5)
                         .addComponent(txtid_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -261,23 +284,25 @@ public class Kasir extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txttelp_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtagama, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtcaridata_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(bcari_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPw, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bsimpan_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bubah_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bhapus_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bbatal_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bkeluar_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -315,7 +340,9 @@ public class Kasir extends javax.swing.JFrame {
             stat.setString(2, txtnm_kasir.getText());
             stat.setString(3, jenis);
             stat.setString(4, txttelp_kasir.getText());
-            stat.setString(5, txtalamat_kasir.getText());
+            stat.setString(5, txtagama.getText());
+            stat.setString(4, txtalamat_kasir.getText());
+            stat.setString(5, txtPw.getText());
             
             stat.executeUpdate();
             JOptionPane.showMessageDialog(null, "data berhasil disimpan");
@@ -340,7 +367,9 @@ public class Kasir extends javax.swing.JFrame {
             stat.setString(1, txtnm_kasir.getText());
             stat.setString(2, jenis);
             stat.setString(3, txttelp_kasir.getText());
-            stat.setString(4, txtalamat_kasir.getText());
+            stat.setString(4, txtagama.getText());
+            stat.setString(5, txtalamat_kasir.getText());
+            stat.setString(6, txtPw.getText());
             
             stat.executeUpdate();
             JOptionPane.showMessageDialog(null, "data berhasil diubah");
@@ -372,6 +401,8 @@ public class Kasir extends javax.swing.JFrame {
         String c = tabmode.getValueAt(bar, 2).toString();
         String d = tabmode.getValueAt(bar, 3).toString();
         String e = tabmode.getValueAt(bar, 4).toString();
+        String f = tabmode.getValueAt(bar, 5).toString();
+        String g = tabmode.getValueAt(bar, 6).toString();
         
         txtid_kasir.setText(a);
         txtnm_kasir.setText(b);
@@ -381,7 +412,9 @@ public class Kasir extends javax.swing.JFrame {
             rperempuan.setSelected(true);
         }
         txttelp_kasir.setText(d);
-        txtalamat_kasir.setText(e);
+        txtagama.setText(e);
+        txtalamat_kasir.setText(d);
+        txtPw.setText(e);
     }//GEN-LAST:event_tblkasirMouseClicked
 
     private void bcari_kasirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bcari_kasirActionPerformed
@@ -443,11 +476,15 @@ public class Kasir extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JRadioButton rlaki;
     private javax.swing.JRadioButton rperempuan;
     private javax.swing.JTable tblkasir;
+    private javax.swing.JTextField txtPw;
+    private javax.swing.JTextField txtagama;
     private javax.swing.JTextArea txtalamat_kasir;
     private javax.swing.JTextField txtcaridata_kasir;
     private javax.swing.JTextField txtid_kasir;
