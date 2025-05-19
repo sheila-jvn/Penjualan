@@ -21,7 +21,7 @@ public class koneksi {
         }
         String url = "jdbc:mysql://localhost/penjualan";
         try{
-            koneksi = DriverManager.getConnection(url,"root","root");
+            koneksi = DriverManager.getConnection(url,"root","");
             System.out.println("Berhasil Terkoneksi ke Database");
         }
         catch(SQLException ex){

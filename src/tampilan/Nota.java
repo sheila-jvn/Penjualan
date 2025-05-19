@@ -3,18 +3,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package tampilan;
+
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JSpinner;
 import koneksi.koneksi;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
  * @author sheila
  */
 public class Nota extends javax.swing.JFrame {
+
     public String id, nama, jenis, telp, almt;
     public String kdbrg, nmbrg, jenisbrg, hb, hj;
     private Connection conn = new koneksi().connect();
@@ -32,21 +38,21 @@ public class Nota extends javax.swing.JFrame {
         autonumber();
         nama();
     }
-    
+
     protected void nama() {
-        try{
-            String sql = "SELECT * FROM kasir WHERE id_kasir='"+jLabel19.getText()+"'";
+        try {
+            String sql = "SELECT * FROM kasir WHERE id_kasir='" + jLabel19.getText() + "'";
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
-            
-            if(hasil.next()){
+
+            if (hasil.next()) {
                 jLabel20.setText(hasil.getString("nama_kasir"));
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
         }
     }
-    
+
     protected void kosong() {
         txtid.setText("");
         txtnm.setText("");
@@ -58,43 +64,43 @@ public class Nota extends javax.swing.JFrame {
         txtqty.setText("");
         txttotal.setText("");
     }
-    
+
     protected void aktif() {
         txtqty.requestFocus();
         jtgl.setEditor(new JSpinner.DateEditor(jtgl, "yyyy/MM/dd"));
-        Object[] Baris = {"KD Barang","Nama","Harga Beli","Harga Jual","QTY","Total"};
+        Object[] Baris = {"KD Barang", "Nama", "Harga Beli", "Harga Jual", "QTY", "Total"};
         tabmode = new DefaultTableModel(null, Baris);
         tbltransaksi.setModel(tabmode);
     }
-    
+
     protected void autonumber() {
-        try{
+        try {
             String sql = "SELECT id_nota FROM nota order by id_nota asc";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             txtidnota.setText("IN0001");
-            while (rs.next()){
+            while (rs.next()) {
                 String id_nota = rs.getString("id_nota").substring(2);
-                int AN = Integer.parseInt(id_nota)+1;
+                int AN = Integer.parseInt(id_nota) + 1;
                 String Nol = "";
-                
-                if(AN<10){
+
+                if (AN < 10) {
                     Nol = "000";
-                } else if (AN<100) {
+                } else if (AN < 100) {
                     Nol = "00";
-                } else if (AN<1000) {
+                } else if (AN < 1000) {
                     Nol = "0";
-                } else if (AN<10000) {
+                } else if (AN < 10000) {
                     Nol = "";
                 }
-                
+
                 txtidnota.setText("IN" + Nol + AN);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Auto Number Gagal" + e);
         }
     }
-    
+
     public void itemTerpilih() {
         PopUpPelanggan Pp = new PopUpPelanggan();
         Pp.plgn = this;
@@ -102,7 +108,7 @@ public class Nota extends javax.swing.JFrame {
         txtnm.setText(nama);
         txtalmt.setText(almt);
     }
-    
+
     public void itemTerpilihBrg() {
         PopUpBarang Pbrg = new PopUpBarang();
         Pbrg.brg = this;
@@ -112,14 +118,56 @@ public class Nota extends javax.swing.JFrame {
         txthj.setText(hj);
         txtqty.requestFocus();
     }
-    
+
     public void hitung() {
         int total = 0;
-        for (int i=0; i<tbltransaksi.getRowCount(); i++){
+        for (int i = 0; i < tbltransaksi.getRowCount(); i++) {
             int amount = Integer.valueOf(tbltransaksi.getValueAt(i, 5).toString());
             total += amount;
         }
         txttotalhrg.setText(Integer.toString(total));
+    }
+
+    public void cetak() {
+        try {
+            System.out.println("Attempting to print report."); // Verbose log
+            String path = "./src/tampilan/nota.jasper";
+            System.out.println("Report path: " + path); // Verbose log
+
+            HashMap parameter = new HashMap();
+            System.out.println("Created HashMap for parameters."); // Verbose log
+
+            // Assuming txtidnota is a JTextField or similar component
+            String idNotaValue = "";
+            if (txtidnota != null) {
+                idNotaValue = txtidnota.getText();
+                parameter.put("id_nota", idNotaValue);
+                System.out.println("Added parameter 'id_nota' with value: " + idNotaValue); // Verbose log
+            } else {
+                System.out.println("Warning: txtidnota component is null. Cannot get 'id_nota' parameter."); // Verbose log
+            }
+
+            // Assuming 'conn' is a valid database connection
+            if (conn != null) {
+                System.out.println("Filling the report using connection: " + conn.toString()); // Verbose log
+                JasperPrint print = JasperFillManager.fillReport(path, parameter, conn);
+                System.out.println("Report filled successfully."); // Verbose log
+
+                System.out.println("Viewing the report..."); // Verbose log
+                JasperViewer.viewReport(print, false);
+                System.out.println("Report viewer displayed."); // Verbose log
+            } else {
+                System.err.println("Error: Database connection 'conn' is null. Cannot fill report."); // Verbose error log
+                JOptionPane.showMessageDialog(rootPane, "Database connection is not available.");
+            }
+
+        } catch (Exception ex) {
+            System.err.println("An error occurred during report generation or viewing."); // Verbose error log
+            System.err.println("Error details: " + ex.getMessage()); // Verbose error log
+            ex.printStackTrace(); // Print stack trace for detailed debugging
+            JOptionPane.showMessageDialog(rootPane, "Dokumen Tidak Ada " + ex.getMessage()); // Show specific error message
+
+        }
     }
 
     /**
@@ -550,15 +598,15 @@ public class Nota extends javax.swing.JFrame {
     }//GEN-LAST:event_txtqtyActionPerformed
 
     private void btambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btambahActionPerformed
-        try{
+        try {
             String kode = txtkdbrg.getText();
             String nama = txtnmbrg.getText();
             int hargab = Integer.parseInt(txthb.getText());
             int hargaj = Integer.parseInt(txthj.getText());
             int qty = Integer.parseInt(txtqty.getText());
             int total = Integer.parseInt(txttotal.getText());
-            
-            tabmode.addRow(new Object[]{kode,nama,hargab,hargaj,qty,total});
+
+            tabmode.addRow(new Object[]{kode, nama, hargab, hargaj, qty, total});
             tbltransaksi.setModel(tabmode);
         } catch (Exception e) {
             System.out.println("Error : " + e);
@@ -581,44 +629,45 @@ public class Nota extends javax.swing.JFrame {
 
     private void bsimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bsimpanActionPerformed
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    String fd = sdf.format(jtgl.getValue());
-    String sql = "insert into nota values (?,?,?,?)";
-    String zsql = "insert into isi values (?,?,?,?,?)";
-    try {
-        PreparedStatement stat = conn.prepareStatement(sql);
-        stat.setString(1, txtidnota.getText());
-        stat.setString(2, fd);
-        stat.setString(3, txtid.getText());
-        stat.setString(4, jLabel19.getText()); // Assuming jLabel19 contains relevant data
+        String fd = sdf.format(jtgl.getValue());
+        String sql = "insert into nota values (?,?,?,?)";
+        String zsql = "insert into isi values (?,?,?,?,?)";
+        try {
+            PreparedStatement stat = conn.prepareStatement(sql);
+            stat.setString(1, txtidnota.getText());
+            stat.setString(2, fd);
+            stat.setString(3, txtid.getText());
+            stat.setString(4, jLabel19.getText()); // Assuming jLabel19 contains relevant data
 
-        stat.executeUpdate();
+            stat.executeUpdate();
 
-        int t = tbltransaksi.getRowCount();
-        for (int i = 0; i < t; i++) {
-            String xkd = tbltransaksi.getValueAt(i, 0).toString();
-            String xhb = tbltransaksi.getValueAt(i, 2).toString();
-            String xhj = tbltransaksi.getValueAt(i, 3).toString();
-            String xqty = tbltransaksi.getValueAt(i, 4).toString();
+            int t = tbltransaksi.getRowCount();
+            for (int i = 0; i < t; i++) {
+                String xkd = tbltransaksi.getValueAt(i, 0).toString();
+                String xhb = tbltransaksi.getValueAt(i, 2).toString();
+                String xhj = tbltransaksi.getValueAt(i, 3).toString();
+                String xqty = tbltransaksi.getValueAt(i, 4).toString();
 
-            PreparedStatement stat2 = conn.prepareStatement(zsql);
-            stat2.setString(1, txtidnota.getText()); 
-            stat2.setString(2, xkd);
-            stat2.setString(3, xhb); 
-            stat2.setString(4, xhj); 
-            stat2.setString(5, xqty);
+                PreparedStatement stat2 = conn.prepareStatement(zsql);
+                stat2.setString(1, txtidnota.getText());
+                stat2.setString(2, xkd);
+                stat2.setString(3, xhb);
+                stat2.setString(4, xhj);
+                stat2.setString(5, xqty);
 
-            stat2.executeUpdate();
+                stat2.executeUpdate();
+            }
+
+            JOptionPane.showMessageDialog(null, "data berhasil disimpan");
+            cetak();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "data gagal disimpan: " + e);
         }
 
-        JOptionPane.showMessageDialog(null, "data berhasil disimpan");
-
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "data gagal disimpan: " + e);
-    }
-
-    kosong();
-    aktif();
-    autonumber();
+        kosong();
+        aktif();
+        autonumber();
     }//GEN-LAST:event_bsimpanActionPerformed
 
     private void bbatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bbatalActionPerformed
